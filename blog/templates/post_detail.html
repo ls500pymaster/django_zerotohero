@@ -1,0 +1,22 @@
+{% extends 'templates/base.html' %}
+{% load bootstrap_icons %}
+{% block content %}
+      <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+          <th>Author</th>
+        <th>Age > 30</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for author in authors %}
+        <tr>
+            <td>{{ author.name }}</td>
+        <td>{{ author.age}}</td>
+        </tr>
+      {% endfor %}
+    {{ highly_rated }}
+    </tbody>
+  </table>
+    {% endblock %}
+    </div>
