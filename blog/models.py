@@ -1,3 +1,6 @@
+from django.utils import timezone
+from django.db import models
+from martor.models import MartorField
 from django.db import models
 
 
@@ -7,12 +10,13 @@ class Post(models.Model):
 		('published', 'Published'),
 	)
 	title = models.CharField(max_length=255)
-	body = models.TextField(blank=True)
+	body = MartorField()
 	tags = models.ManyToManyField("Tag")
 	author = models.ForeignKey("UserProfile", related_name='blog_posts', on_delete=models.CASCADE)
 	slug = models.SlugField(max_length=250, unique_for_date='publish')
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
+	publish = models.DateTimeField(default=timezone.now)
 	image = models.ImageField(upload_to="images/")
 	status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
 

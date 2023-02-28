@@ -1,5 +1,10 @@
 from django.contrib import admin
+from django.db import models
+from django.contrib import admin
+from martor.widgets import AdminMartorWidget
+from martor.models import MartorField
 from blog.models import Post, UserProfile, Comments, Tag
+from martor.widgets import AdminMartorWidget
 
 
 @admin.register(UserProfile)
@@ -9,8 +14,11 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("title", "slug", "author", "created", "status")
-
+    list_display = ['title', 'status']
+    formfield_overrides = {
+        MartorField: {'widget': AdminMartorWidget},
+        models.TextField: {'widget': AdminMartorWidget},
+    }
 
 @admin.register(Comments)
 class CommentsAdmin(admin.ModelAdmin):
@@ -20,3 +28,4 @@ class CommentsAdmin(admin.ModelAdmin):
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ("name", )
+

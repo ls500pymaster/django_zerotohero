@@ -1,18 +1,18 @@
-{% extends 'templates/base.html' %}
+{% extends 'base.html' %}
 {% load bootstrap_icons %}
 {% block content %}
       <table id="data" class="table table-striped">
     <thead>
       <tr>
-          <th>Author</th>
-        <th>Age > 30</th>
+          <th>Title</th>
+        <th>Author</th>
       </tr>
     </thead>
     <tbody>
-      {% for author in authors %}
+      {% for post in post_detail %}
         <tr>
-            <td>{{ author.name }}</td>
-        <td>{{ author.age}}</td>
+            <td>{{ post_detail.title }}</td>
+        <td>{{ post_detail.author}}</td>
         </tr>
       {% endfor %}
     {{ highly_rated }}
