@@ -10,10 +10,12 @@ class PostListView(generic.ListView):
     template_name = "blog/post_list.html"
 
 
-class PostListDetail(generic.DetailView):
+class PostDetailView(generic.DetailView):
     model = Post
     context_object_name = "post_detail"
     paginate_by = 5
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
     template_name = "blog/post_detail.html"
 
 

@@ -4,7 +4,6 @@
 {% load martortags %}
 {% block content %}
 
-
 <div class="container mb-4">
     <div class="row">
         {% for post in post_list %}
@@ -12,15 +11,17 @@
             <div class="card shadow">
                 <div class="card-body text-center">
                     <a href="#">
-                        <img class="card-img-top" src="{% static post.image.url %}" alt="My image">
+                    {% if post.image %}
+                        <img class="card-img-top" src="{% static "/" %}{{ post.image }}" alt="{{ post.title }}">
+                    {% endif %}
                     </a>
                     <ul class="list-inline mt-3">
                         <li class="list-inline-item"><i class="fas fa-user"></i> {{ post.title }}</li>
                         <li class="list-inline-item"><i class="far fa-clock"></i> {{ post.created }}</li>
                     </ul>
                     <hr>
-                    <p class="lead">{{ post.short_description }}</p>
-                    <a class="btn btn-outline-dark my-2" href="#" role="button">Read more...</a>
+                    <p class="lead">{{ post.short_description | truncatewords:40 | linebreaks }}</p>
+              <a class="btn btn-outline-dark my-2" href="{% url 'blog:post_detail' slug=post.slug %}" role="button">Read more...</a>
                 </div>
             </div>
         </div>

@@ -20,6 +20,7 @@ class PostAdmin(admin.ModelAdmin):
         models.TextField: {'widget': AdminMartorWidget},
     }
 
+
 @admin.register(Comments)
 class CommentsAdmin(admin.ModelAdmin):
     list_display = ("post", "body", "created", "published")
