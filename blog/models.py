@@ -11,6 +11,7 @@ class Post(models.Model):
 	)
 	title = models.CharField(max_length=255)
 	body = MartorField()
+	short_description = models.CharField(max_length=255, blank=True, null=True)
 	tags = models.ManyToManyField("Tag")
 	author = models.ForeignKey("UserProfile", related_name='blog_posts', on_delete=models.CASCADE)
 	slug = models.SlugField(max_length=250, unique_for_date='publish')
@@ -30,6 +31,9 @@ class UserProfile(models.Model):
 	password = models.CharField(max_length=255)
 	gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female'), ('N', 'None')))
 	age = models.IntegerField(null=True)
+
+	def get_absolute_url(self):
+		return f"/user/{self.username}"
 
 
 class Comments(models.Model):
