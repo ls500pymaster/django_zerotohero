@@ -12,7 +12,7 @@
                 <div class="card-body text-center">
                     <a href="#">
                     {% if post.image %}
-                        <img class="card-img-top" src="{% static "/" %}{{ post.image }}" alt="{{ post.title }}">
+                        <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}">
                     {% endif %}
                     </a>
                     <ul class="list-inline mt-3">

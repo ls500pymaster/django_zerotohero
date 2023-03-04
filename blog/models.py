@@ -20,24 +20,16 @@ class Post(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 	publish = models.DateTimeField(default=timezone.now)
-	image = models.ImageField(upload_to="static/images")
+	image = models.ImageField(upload_to="images/")
 	status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
-
-	def save(self, *args, **kwargs):
-		self.slug = slugify(self.title)
-		super(Post, self).save(*args, **kwargs)
 
 	class Meta:
 		verbose_name = "Blog Posts"
 		verbose_name_plural = "Blog Posts"
 
-
-	# def get_absolute_url(self):
-	# 	return reverse('blog:post_detail',
-	# 	               args=[self.publish.year,
-	# 	                     self.publish.strftime('%m'),
-	# 	                     self.publish.strftime('%d'),
-	# 	                     self.slug])
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.title)
+		super(Post, self).save(*args, **kwargs)
 
 	def __str__(self):
 		return self.title
@@ -45,17 +37,28 @@ class Post(models.Model):
 
 class UserProfile(models.Model):
 	username = models.CharField(max_length=255)
+	full_name = models.CharField(max_length=255, blank=True)
 	email = models.EmailField()
 	password = models.CharField(max_length=255)
 	gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female'), ('N', 'None')))
 	age = models.IntegerField(null=True)
+	biography = models.TextField(null=True, blank=True)
+	website = models.URLField(blank=True)
+	location = models.CharField(max_length=30, blank=True)
+	mobile = models.CharField(max_length=20, null=True, blank=True)
+	address = models.CharField(max_length=50, null=True, blank=True)
+	github = models.URLField(blank=True)
+	twitter = models.URLField(blank=True)
+	instagram = models.URLField(blank=True)
+	facebook = models.URLField(blank=True)
 
 	def get_absolute_url(self):
 		return f"/user/{self.username}"
 
 
 class Comments(models.Model):
-	post = models.ForeignKey("Post", on_delete=models.CASCADE)
+	user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+	post = models.ForeignKey(Post, on_delete=models.CASCADE)
 	body = models.TextField(blank=True)
 	created = models.DateTimeField(auto_now_add=True)
 	published = models.BooleanField(default=False)

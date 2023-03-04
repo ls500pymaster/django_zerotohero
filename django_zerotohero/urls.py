@@ -15,6 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
+from accounts.views import LoginView, RegisterView
+from blog.views import UserListView, UserDetailView
 
 admin.site.site_header = "Blog Project"
 admin.site.index_title = "Hillel IT School"
@@ -23,5 +27,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
     path('martor/', include('martor.urls')),
-
+    path("login/", LoginView.as_view(), name="login"),
+    path("register/", RegisterView.as_view(), name="register"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

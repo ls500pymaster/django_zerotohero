@@ -1,6 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
-from .models import Post
+from django.views.generic import DetailView
+
+from .models import Post, UserProfile
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 
 
 class PostListView(generic.ListView):
@@ -24,5 +28,22 @@ class PostCreate(generic.CreateView):
     context_object_name = "post_create"
     template_name = "blog/post_create.html"
     fields = ["title", "body", "tags", "image",]
+
+
+class UserListView(generic.ListView):
+    model = UserProfile
+    context_object_name = "user_list"
+    paginate_by = 5
+    template_name = "blog/user_list.html"
+
+
+class UserDetailView(DetailView):
+    model = UserProfile
+    context_object_name = "user_detail"
+    template_name = "blog/user_detail.html"
+
+    def get_object(self, queryset=None):
+        username = self.kwargs.get("username")
+        return get_object_or_404(UserProfile, username=username)
 
 
