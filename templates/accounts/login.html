@@ -4,7 +4,8 @@
 <h1>Login</h1>
 
 <form action="{% url "login" %}" method="post">
-  {% csrf_token %}
+      {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit" id="submit">Login</button>
-</form>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">© 2023</p>
+  </form>
