@@ -12,6 +12,8 @@ urlpatterns = [
 	path('martor/', include('martor.urls')),
 	path("", PostListView.as_view(), name="post_list"),
 	# path("user/<int:pk>/", UserDetailView.as_view(), name="user_profile"),
+	path("users/", UserListView.as_view(), name="user_list"),
+	path("user/<str:username>/", UserDetailView.as_view(), name="user_detail"),
 	path("create/", PostCreate.as_view(), name="post_create"),
 	path("post/<slug:slug>/", PostDetailView.as_view(), name="post_detail"),
 ]

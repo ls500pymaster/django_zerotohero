@@ -37,6 +37,7 @@ class Post(models.Model):
 
 class UserProfile(models.Model):
 	username = models.CharField(max_length=255)
+	full_name = models.CharField(max_length=255, blank=True)
 	email = models.EmailField()
 	password = models.CharField(max_length=255)
 	gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female'), ('N', 'None')))
@@ -44,6 +45,12 @@ class UserProfile(models.Model):
 	biography = models.TextField(null=True, blank=True)
 	website = models.URLField(blank=True)
 	location = models.CharField(max_length=30, blank=True)
+	mobile = models.CharField(max_length=20, null=True, blank=True)
+	address = models.CharField(max_length=50, null=True, blank=True)
+	github = models.URLField(blank=True)
+	twitter = models.URLField(blank=True)
+	instagram = models.URLField(blank=True)
+	facebook = models.URLField(blank=True)
 
 	def get_absolute_url(self):
 		return f"/user/{self.username}"
