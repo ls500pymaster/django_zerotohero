@@ -48,8 +48,10 @@ class UserDetailView(DetailView):
         return get_object_or_404(UserProfile, username=username)
 
 
-# class CustomLoginView(LoginView):
-#     template_name = 'login.html'
-#     authentication_form = EmailAuthenticationForm
+def navbar(request):
+    if request.user.is_authenticated:
+        return render(request, 'blog/navbar.html', {'loggedin': True})
+    else:
+        return render(request, 'blog/navbar.html', {'loggedin': False})
 
 
