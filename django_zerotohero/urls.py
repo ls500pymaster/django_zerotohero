@@ -29,6 +29,7 @@ urlpatterns = [
     path('martor/', include('martor.urls')),
     path("login/", LoginView.as_view(), name="login"),
     path("register/", RegisterView.as_view(), name="register"),
+
 ]
 
 if settings.DEBUG:
