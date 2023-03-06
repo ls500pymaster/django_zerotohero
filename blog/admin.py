@@ -5,11 +5,17 @@ from martor.widgets import AdminMartorWidget
 from martor.models import MartorField
 from blog.models import Post, UserProfile, Comments, Tag
 from martor.widgets import AdminMartorWidget
+from accounts.models import CustomUser
 
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ("username", "gender", "age")
+
+
+@admin.register(CustomUser)
+class AccountsAdmin(admin.ModelAdmin):
+    list_display = ("username", "first_name", "last_name")
 
 
 @admin.register(Post)

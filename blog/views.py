@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView
-
+from django.contrib.auth.views import LoginView
+from accounts.forms import LoginForm
 from .models import Post, UserProfile
 from django.views import generic
-from django.contrib.auth.decorators import login_required
+from accounts.forms import RegisterForm, LoginForm
 
 
 class PostListView(generic.ListView):
@@ -45,5 +46,12 @@ class UserDetailView(DetailView):
     def get_object(self, queryset=None):
         username = self.kwargs.get("username")
         return get_object_or_404(UserProfile, username=username)
+
+
+def navbar(request):
+    if request.user.is_authenticated:
+        return render(request, 'blog/navbar.html', {'loggedin': True})
+    else:
+        return render(request, 'blog/navbar.html', {'loggedin': False})
 
 
