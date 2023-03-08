@@ -3,131 +3,236 @@
 {% load static %}
 {% block content %}
 
-
-<div class="col-md-8">
-      <h3 class="pb-4 mb-4 fst-italic border-bottom">
-       {% block title %}{{ post.title }}{% endblock %}
-      </h3>
-
-      <article class="blog-post">
-        <h2 class="blog-post-title">{{ post_detail.title }}</h2>
-        <p class="blog-post-meta">{{ post_detail.created }} <a href="#">{{ post_detail.author.username }}</a></p>
-
-        <p>This blog post shows a few different types of content that’s supported and styled with Bootstrap. Basic typography, lists, tables, images, code, and more are all supported as expected.</p>
-        <hr>
-        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-        <h2>Blockquotes</h2>
-        <p>This is an example blockquote in action:</p>
-        <blockquote class="blockquote">
-          <p>Quoted text goes here.</p>
-        </blockquote>
-        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-        <h3>Example lists</h3>
-        <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout. This is an example unordered list:</p>
-        <ul>
-          <li>First list item</li>
-          <li>Second list item with a longer description</li>
-          <li>Third list item to close it out</li>
-        </ul>
-        <p>And this is an ordered list:</p>
-        <ol>
-          <li>First list item</li>
-          <li>Second list item with a longer description</li>
-          <li>Third list item to close it out</li>
-        </ol>
-        <p>And this is a definiton list:</p>
-        <dl>
-          <dt>HyperText Markup Language (HTML)</dt>
-          <dd>The language used to describe and define the content of a Web page</dd>
-          <dt>Cascading Style Sheets (CSS)</dt>
-          <dd>Used to describe the appearance of Web content</dd>
-          <dt>JavaScript (JS)</dt>
-          <dd>The programming language used to build advanced Web sites and applications</dd>
-        </dl>
-        <h2>Inline HTML elements</h2>
-        <p>HTML defines a long list of available inline tags, a complete list of which can be found on the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">Mozilla Developer Network</a>.</p>
-        <ul>
-          <li><strong>To bold text</strong>, use <code class="language-plaintext highlighter-rouge">&lt;strong&gt;</code>.</li>
-          <li><em>To italicize text</em>, use <code class="language-plaintext highlighter-rouge">&lt;em&gt;</code>.</li>
-          <li>Abbreviations, like <abbr title="HyperText Markup Langage">HTML</abbr> should use <code class="language-plaintext highlighter-rouge">&lt;abbr&gt;</code>, with an optional <code class="language-plaintext highlighter-rouge">title</code> attribute for the full phrase.</li>
-          <li>Citations, like <cite>— Mark Otto</cite>, should use <code class="language-plaintext highlighter-rouge">&lt;cite&gt;</code>.</li>
-          <li><del>Deleted</del> text should use <code class="language-plaintext highlighter-rouge">&lt;del&gt;</code> and <ins>inserted</ins> text should use <code class="language-plaintext highlighter-rouge">&lt;ins&gt;</code>.</li>
-          <li>Superscript <sup>text</sup> uses <code class="language-plaintext highlighter-rouge">&lt;sup&gt;</code> and subscript <sub>text</sub> uses <code class="language-plaintext highlighter-rouge">&lt;sub&gt;</code>.</li>
-        </ul>
-        <p>Most of these elements are styled by browsers with few modifications on our part.</p>
-        <h2>Heading</h2>
-        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-        <h3>Sub-heading</h3>
-        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-        <pre><code>Example code block</code></pre>
-        <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
-      </article>
-
-      <article class="blog-post">
-        <h2 class="blog-post-title">Another blog post</h2>
-        <p class="blog-post-meta">December 23, 2020 by <a href="#">Jacob</a></p>
-
-        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-        <blockquote>
-          <p>Longer quote goes here, maybe with some <strong>emphasized text</strong> in the middle of it.</p>
-        </blockquote>
-        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-        <h3>Example table</h3>
-        <p>And don't forget about tables in these posts:</p>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Upvotes</th>
-              <th>Downvotes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Alice</td>
-              <td>10</td>
-              <td>11</td>
-            </tr>
-            <tr>
-              <td>Bob</td>
-              <td>4</td>
-              <td>3</td>
-            </tr>
-            <tr>
-              <td>Charlie</td>
-              <td>7</td>
-              <td>9</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td>Totals</td>
-              <td>21</td>
-              <td>23</td>
-            </tr>
-          </tfoot>
-        </table>
-
-        <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
-      </article>
-
-      <article class="blog-post">
-        <h2 class="blog-post-title">New feature</h2>
-        <p class="blog-post-meta">December 14, 2020 by <a href="#">Chris</a></p>
-
-        <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-        <ul>
-          <li>First list item</li>
-          <li>Second list item with a longer description</li>
-          <li>Third list item to close it out</li>
-        </ul>
-        <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
-      </article>
-
-      <nav class="blog-pagination" aria-label="Pagination">
-        <a class="btn btn-outline-primary" href="#">Older</a>
-        <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
-      </nav>
-
+    <div id="intro" class="p-5 text-center bg-light">
+      <h1 class="mb-0 h4">{{ post_detail.title }}</h1>
     </div>
+{% csrf_token %}
+     <!--Main layout-->
+  <main class="mt-4 mb-5">
+    <div class="container">
+      <!--Grid row-->
+      <div class="row">
+        <!--Grid column-->
+        <div class="col-md-8 mb-4">
+          <!--Section: Post data-mdb-->
+          <section class="border-bottom mb-4">
+           {% if post_detail.image %}
+           <img class="img-fluid shadow-2-strong rounded-5 mb-4" src="{{ post_detail.image.url }}" alt="{{ post_detail.title }}">
+           {% endif %}
+
+            <div class="row align-items-center mb-4">
+              <div class="col-lg-6 text-center text-lg-start mb-3 m-lg-0">
+                <img src="{{ post_detail.author.avatar.url }}" class="rounded-5 shadow-1-strong me-2"
+                  height="35" alt="" loading="lazy" />
+                <span> Published <u>{{ post_detail.created|date:"F d, Y" }}</u> by</span>
+                <a href="" class="text-dark">{{ post_detail.author }}</a>
+              </div>
+
+              <div class="col-lg-6 text-center text-lg-end">
+                <button type="button" class="btn btn-primary px-3 me-1" style="background-color: #3b5998;">
+                  <i class="fab fa-facebook-f"></i>
+                </button>
+                <button type="button" class="btn btn-primary px-3 me-1" style="background-color: #55acee;">
+                  <i class="fab fa-twitter"></i>
+                </button>
+                <button type="button" class="btn btn-primary px-3 me-1" style="background-color: #0082ca;">
+                  <i class="fab fa-linkedin"></i>
+                </button>
+                <button type="button" class="btn btn-primary px-3 me-1">
+                  <i class="fas fa-comments"></i>
+                </button>
+              </div>
+            </div>
+          </section>
+          <!--Section: Post data-mdb-->
+
+                 <!--Section: Text-->
+          <section>
+            <p>
+                {{ post_detail.short_description }}
+            </p>
+
+            <p><strong>{{ post_detail.title }}</strong></p>
+
+            <p>{{ post_detail.body|linebreaks }}
+            </p>
+          </section>
+          <!--Section: Text-->
+
+                <!--Section: Share buttons-->
+          <section class="text-center border-top border-bottom py-4 mb-4">
+            <p><strong>Share with your friends:</strong></p>
+
+            <button type="button" class="btn btn-primary me-1" style="background-color: #3b5998;">
+              <i class="fab fa-facebook-f"></i>
+            </button>
+            <button type="button" class="btn btn-primary me-1" style="background-color: #55acee;">
+              <i class="fab fa-twitter"></i>
+            </button>
+            <button type="button" class="btn btn-primary me-1" style="background-color: #0082ca;">
+              <i class="fab fa-linkedin"></i>
+            </button>
+            <button type="button" class="btn btn-primary me-1">
+              <i class="fas fa-comments me-2"></i>Add comment
+            </button>
+          </section>
+          <!--Section: Share buttons-->
+
+                <!--Section: Author-->
+          <section class="border-bottom mb-4 pb-4">
+            <div class="row">
+              <div class="col-3">
+                <img src="{{ post_detail.author.avatar.url }}" class="img-fluid shadow-1-strong rounded-5" alt="" />
+              </div>
+
+              <div class="col-9">
+                <p class="mb-2"><strong>{{ post_detail.author }}</strong></p>
+                <a href="" class="text-dark"><i class="fab fa-facebook-f me-1"></i></a>
+                <a href="" class="text-dark"><i class="fab fa-twitter me-1"></i></a>
+                <a href="" class="text-dark"><i class="fab fa-linkedin me-1"></i></a>
+                <p>
+                    {{ post_detail.author.biography }}
+                </p>
+              </div>
+            </div>
+          </section>
+          <!--Section: Author-->
+
+                <!--Section: Comments-->
+          <section class="border-bottom mb-3">
+            <p class="text-center"><strong>Comments: 3</strong></p>
+
+            <!-- Comment -->
+            <div class="row mb-4">
+              <div class="col-2">
+                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(24).jpg"
+                  class="img-fluid shadow-1-strong rounded-5" alt="" />
+              </div>
+
+              <div class="col-10">
+                <p class="mb-2"><strong>Marta Dolores</strong></p>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio est ab iure
+                  inventore dolorum consectetur? Molestiae aperiam atque quasi consequatur aut?
+                  Repellendus alias dolor ad nam, soluta distinctio quis accusantium!
+                </p>
+              </div>
+            </div>
+
+            <!-- Comment -->
+            <div class="row mb-4">
+              <div class="col-2">
+                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(25).jpg"
+                  class="img-fluid shadow-1-strong rounded-5" alt="" />
+              </div>
+
+              <div class="col-10">
+                <p class="mb-2"><strong>Valeria Groove</strong></p>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio est ab iure
+                  inventore dolorum consectetur? Molestiae aperiam atque quasi consequatur aut?
+                  Repellendus alias dolor ad nam, soluta distinctio quis accusantium!
+                </p>
+              </div>
+            </div>
+
+            <!-- Comment -->
+            <div class="row mb-4">
+              <div class="col-2">
+                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(26).jpg"
+                  class="img-fluid shadow-1-strong rounded-5" alt="" />
+              </div>
+
+              <div class="col-10">
+                <p class="mb-2"><strong>Antonia Velez</strong></p>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio est ab iure
+                  inventore dolorum consectetur? Molestiae aperiam atque quasi consequatur aut?
+                  Repellendus alias dolor ad nam, soluta distinctio quis accusantium!
+                </p>
+              </div>
+            </div>
+          </section>
+          <!--Section: Comments-->
+
+
+                 <!--Section: Reply-->
+          <section>
+            <p class="text-center"><strong>Leave a reply</strong></p>
+            <form>
+              <!-- Name input -->
+              <div class="form-outline mb-4">
+                <input type="text" id="id_name" class="form-control" />
+                <label class="form-label" for="id_name">Name</label>
+              </div>
+
+              <!-- Email input -->
+              <div class="form-outline mb-4">
+                <input type="email" id="id_email" class="form-control" />
+                <label class="form-label" for="id_email">Email address</label>
+              </div>
+
+              <!-- Message input -->
+              <div class="form-outline mb-4">
+                <textarea class="form-control" id="id_message" rows="4"></textarea>
+                <label class="form-label" for="id_message">Text</label>
+              </div>
+
+              <!-- Checkbox -->
+              <div class="form-check d-flex justify-content-center mb-4">
+                <input class="form-check-input me-2" type="checkbox" value="" id="form4Example4" checked />
+                <label class="form-check-label" for="form4Example4">
+                  Send me a copy of this comment
+                </label>
+              </div>
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4">
+                Publish
+              </button>
+            </form>
+          </section>
+          <!--Section: Reply-->
+        </div>
+        <!--Grid column-->
+
+{% include 'blog/sidebar.html' %}
+
+    <!--Footer-->
+  <footer class="bg-light text-lg-start">
+    <div class="py-4 text-center">
+      <a role="button" class="btn btn-primary btn-lg m-2"
+        href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" rel="nofollow" target="_blank">
+        Learn Bootstrap 5
+      </a>
+      <a role="button" class="btn btn-primary btn-lg m-2" href="https://mdbootstrap.com/docs/standard/" target="_blank">
+        Download MDB UI KIT
+      </a>
+    </div>
+
+    <hr class="m-0" />
+
+    <div class="text-center py-4 align-items-center">
+      <p>Follow MDB on social media</p>
+      <a href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" class="btn btn-primary m-1" role="button"
+        rel="nofollow" target="_blank">
+        <i class="fab fa-youtube"></i>
+      </a>
+      <a href="https://www.facebook.com/mdbootstrap" class="btn btn-primary m-1" role="button" rel="nofollow"
+        target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://twitter.com/MDBootstrap" class="btn btn-primary m-1" role="button" rel="nofollow"
+        target="_blank">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://github.com/mdbootstrap/mdb-ui-kit" class="btn btn-primary m-1" role="button" rel="nofollow"
+        target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </footer>
+      </div>
+    </div>
+  </main>
 {% endblock %}

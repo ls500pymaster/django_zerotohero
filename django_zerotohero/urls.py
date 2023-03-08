@@ -13,24 +13,26 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include, path
 from django.conf import settings
+from django.conf.urls import include
 from django.conf.urls.static import static
-from accounts.views import LoginView, RegisterView
-from blog.views import navbar
-from blog.views import UserListView, UserDetailView
+from django.contrib import admin
+from django.urls import path
 
 admin.site.site_header = "Blog Project"
 admin.site.index_title = "Hillel IT School"
 
 urlpatterns = [
+    path('', include('blog.urls')),
+    path('markdown_editor/', include('markdown_editor.urls')),
+    path(r'mdeditor/', include('mdeditor.urls')),
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
-    path('martor/', include('martor.urls')),
-    path('navbar/', navbar, name='navbar'),
-    path("login/", LoginView.as_view(), name="login"),
-    path("register/", RegisterView.as_view(), name="register"),
+    # path('navbar/', navbar, name='navbar'),
+
+    # path("login/", LoginView.as_view(), name="login"),
+    # path('logout/', CustomLogoutView.as_view(), name="logout"),
+    # path("register/", RegisterView.as_view(), name="register"),
 
 ]
 

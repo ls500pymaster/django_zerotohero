@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block content %}
+
+  <h2>My Posts</h2>
+  <ul>
+    {% for post in posts %}
+      <li>
+        <a href="{% url 'user_posts' post.pk %}">
+          {{ post.title }}
+        </a>
+      </li>
+    {% empty %}
+      <li>No posts yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
