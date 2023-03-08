@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
-{% load static %}
 {% load bootstrap_icons %}
-
+{% load static %}
 {% block content %}
 
-{% for post in post_list %}
     <div id="intro" class="p-5 text-center bg-light">
-      <h1 class="mb-0 h4">{{ post.title }}</h1>
+      <h1 class="mb-0 h4">About This Web App</h1>
     </div>
 
-  <!--Main layout-->
+     <!--Main layout-->
   <main class="mt-4 mb-5">
     <div class="container">
       <!--Grid row-->
@@ -17,17 +15,19 @@
         <!--Grid column-->
         <div class="col-md-8 mb-4">
           <!--Section: Post data-mdb-->
-          <div class="border-bottom mb-4">
-           {% if post.image %}
-           <img class="img-fluid shadow-2-strong rounded-5 mb-4" src="{{ post.image.url }}" alt="{{ post.title }}">
+          <section class="border-bottom mb-4">
+           {% if post_detail.image %}
+           <img class="img-fluid shadow-2-strong rounded-5 mb-4" src="{{ post_detail.image.url }}" alt="{{ post_detail.title }}">
            {% endif %}
+
             <div class="row align-items-center mb-4">
               <div class="col-lg-6 text-center text-lg-start mb-3 m-lg-0">
                 <img src="https://mdbootstrap.com/img/Photos/Avatars/img (23).jpg" class="rounded-5 shadow-1-strong me-2"
                   height="35" alt="" loading="lazy" />
-                <span> Published <u>{{ post.created|date:"F d, Y" }}</u> by</span>
-                <a href="" class="text-dark">{{ post.author }}</a>
+                <span> Published <u>{{ post_detail.created|date:"F d, Y" }}</u> by</span>
+                <a href="" class="text-dark">{{ post_detail.author }}</a>
               </div>
+
               <div class="col-lg-6 text-center text-lg-end">
                 <button type="button" class="btn btn-primary px-3 me-1" style="background-color: #3b5998;">
                   <i class="fab fa-facebook-f"></i>
@@ -43,11 +43,13 @@
                 </button>
               </div>
             </div>
-          </div>>
-            <!--Section: Text-->
+          </section>
+          <!--Section: Post data-mdb-->
+
+                 <!--Section: Text-->
           <section>
             <p>
-            {{ post.short_description }}
+                {{ post_detail.short_description }}
             </p>
 
             <p><strong>Optio sapiente molestias consectetur?</strong></p>
@@ -70,30 +72,36 @@
               possimus quia incidunt maiores molestias eaque nam commodi! Magnam, labore.
             </p>
 
-            <img src="https://mdbootstrap.com/img/new/slides/041.jpg" class="img-fluid shadow-1-strong rounded-5 mb-4"
-              alt="" />
-
-            <ul>
-              <li>Lorem</li>
-              <li>Ipsum</li>
-              <li>Dolor</li>
-              <li>Sit</li>
-              <li>Amet</li>
-            </ul>
-
+           <img class="img-fluid shadow-1-strong rounded-5 mb-4" src="{{ post_detail.image.url }}" alt="{{ post_detail.title }}">
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, temporibus nulla
               voluptatibus accusantium sapiente doloremque. Doloribus ratione laboriosam culpa. Ab
               officiis quidem, debitis nostrum in accusantium dolore veritatis eius est?
             </p>
           </section>
+          <!--Section: Text-->
+
+                <!--Section: Share buttons-->
+          <section class="text-center border-top border-bottom py-4 mb-4">
+            <p><strong>Share with your friends:</strong></p>
+
+            <button type="button" class="btn btn-primary me-1" style="background-color: #3b5998;">
+              <i class="fab fa-facebook-f"></i>
+            </button>
+            <button type="button" class="btn btn-primary me-1" style="background-color: #55acee;">
+              <i class="fab fa-twitter"></i>
+            </button>
+            <button type="button" class="btn btn-primary me-1" style="background-color: #0082ca;">
+              <i class="fab fa-linkedin"></i>
+            </button>
+          </section>
+          <!--Section: Share buttons-->
+
         </div>
-    {% include 'blog/sidebar.html' %}
-    {% endfor %}
-        </div>
+
+{% include 'blog/sidebar.html' %}
+
       </div>
     </div>
-</main>
-
-    {% endblock %}
-
+  </main>
+{% endblock %}

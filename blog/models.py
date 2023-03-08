@@ -1,10 +1,11 @@
 from django.urls import reverse
 from django.utils import timezone
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from martor.models import MartorField
 from django.db import models
 from django.utils.text import slugify
-from accounts.models import CustomUser
+from mdeditor.fields import MDTextField
 
 
 class Post(models.Model):
@@ -13,7 +14,7 @@ class Post(models.Model):
 		('published', 'Published'),
 	)
 	title = models.CharField(max_length=255)
-	body = MartorField()
+	body = MDTextField(null=True, blank=True)
 	short_description = models.CharField(max_length=255, blank=True, null=True)
 	tags = models.ManyToManyField("Tag")
 	author = models.ForeignKey("UserProfile", related_name='blog_posts', on_delete=models.CASCADE)
@@ -36,11 +37,12 @@ class Post(models.Model):
 		return self.title
 
 
-class UserProfile(models.Model):
-	username = models.CharField(max_length=255)
+class UserProfile(AbstractUser):
+	# username = models.CharField(max_length=255)
+	# password = models.CharField(max_length=255)
 	full_name = models.CharField(max_length=255, blank=True)
 	email = models.EmailField()
-	password = models.CharField(max_length=255)
+	avatar = models.ImageField(upload_to="avatar/", blank=True, null=True)
 	gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female'), ('N', 'None')))
 	age = models.IntegerField(null=True)
 	biography = models.TextField(null=True, blank=True)
@@ -58,11 +60,12 @@ class UserProfile(models.Model):
 
 
 class Comments(models.Model):
-	user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+	user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
 	post = models.ForeignKey(Post, on_delete=models.CASCADE)
 	body = models.TextField(blank=True)
 	created = models.DateTimeField(auto_now_add=True)
 	published = models.BooleanField(default=False)
+	approved = models.BooleanField(default=False)
 
 	class Meta:
 		verbose_name = "Blog Comments"
