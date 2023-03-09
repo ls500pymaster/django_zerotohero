@@ -1,10 +1,11 @@
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+from django.contrib.auth import authenticate, get_user_model, login
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import DetailView, TemplateView, ListView
@@ -13,30 +14,46 @@ from django.views.generic import UpdateView
 from accounts.forms import LoginForm, RegisterForm
 from .models import Post
 from .models import UserProfile
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+from django.views.generic import FormView
 
 
-class HomePageView(TemplateView):
-    template_name = 'blog/home.html'
-
-
-class LoginView(auth_views.LoginView):
-    form_class = LoginForm
+class LoginViewForm(FormView):
+    form_class = AuthenticationForm
     template_name = "blog/login.html"
     success_message = "Login successful"
-    success_url = reverse_lazy("blog:user_profile")
+    success_url = reverse_lazy("blog:home")
     error_message = "Login False!"
+
+    def form_valid(self, form):
+        # We log the user in and redirect to the home page.
+        user = form.get_user()
+        login(self.request, user)
+        return super().form_valid(form)
 
 
 class CustomLogoutView(LogoutView):
     template_name = 'blog/logout.html'
 
 
-class RegisterView(generic.CreateView):
+class RegisterView(FormView):
     form_class = RegisterForm
     template_name = "blog/register.html"
     success_message = "Registration successful"
-    success_url = reverse_lazy("blog:user_list")
+    success_url = reverse_lazy("blog:home")
     error_message = "Registration False!"
+
+    def form_valid(self, form):
+        user = form.save()
+        user = authenticate(self.request, username=user.username, password=form.cleaned_data.get("password1"))
+        login(self.request, user)
+        return super(RegisterView, self).form_valid(form)
+
+
+class HomePageView(TemplateView):
+    template_name = 'blog/home.html'
 
 
 class PostListView(generic.ListView):
@@ -113,21 +130,25 @@ class UserPostListView(LoginRequiredMixin, ListView):
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = UserProfile
-    slug_field = "username"
-    slug_url_kwarg = "username"
     context_object_name = "user_update"
     template_name = "blog/user_update.html"
+    slug_field = "username"
+    slug_url_kwarg = "username"
     fields = ["email", "mobile", "address", "age", "gender", "biography", "location", "website"]
     success_message = "Profile Updated"
+
+    # def test_func(self):
+    #     user = self.get_object()
+    #     return self.request.user == user.username
 
     def get_success_url(self):
         username = self.object.username
         return reverse_lazy("blog:user_profile", kwargs={"username": username})
 
 
-@login_required
-def navbar(request):
-    if request.user.is_authenticated:
-        return render(request, 'blog/navbar.html', {'loggedin': True})
-    else:
-        return render(request, 'blog/navbar.html', {'loggedin': False})
+# @login_required
+# def navbar(request):
+#     if request.user.is_authenticated:
+#         return render(request, 'blog/navbar.html', {'loggedin': True})
+#     else:
+#         return render(request, 'blog/navbar.html', {'loggedin': False})
