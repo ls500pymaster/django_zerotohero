@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.views import LoginView
 
 from blog.models import UserProfile
 from blog.models import Comments
@@ -15,20 +16,16 @@ class PostForm(forms.ModelForm):
         fields = ['title', 'body', 'tags', "status",]
 
 
-# class ProfileForm(forms.ModelForm):
-#     class Meta:
-#         model = UserProfile
-#         fields = ["mobile", "address", "age", "gender", "biography", "location", "website", "avatar"]
-
-
-class RegisterForm(UserCreationForm):
+class ProfileForm(forms.ModelForm):
     class Meta:
-        model = get_user_model()
-        fields = ("email", "username", "password1", "password2")
+        model = UserProfile
+        fields = ["mobile", "address", "age", "gender", "biography", "location", "website", "avatar"]
 
 
-class LoginForm(AuthenticationForm):
-    username = forms.CharField(label="Email / Username")
+# class RegisterForm(UserCreationForm):
+#     class Meta:
+#         model = get_user_model()
+#         fields = ("email", "username", "password1", "password2")
 
 
 class UserUpdateForm(UserChangeForm):

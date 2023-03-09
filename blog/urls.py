@@ -1,8 +1,8 @@
 from django.urls import path, include
 from .views import PostListView, PostDetailView, UserDetailView, UserListView, AboutView, UserUpdateView, \
-	UserPostListView, CustomLogoutView, HomePageView, UserProfileView
+	UserPostListView, CustomLogoutView, HomePageView, UserProfileView, LoginViewForm
 from blog.views import LoginView, RegisterView
-from blog.views import PostCreate, PostUpdate, LogoutView
+from blog.views import PostCreate, PostUpdate, LogoutView, LoginView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -10,20 +10,21 @@ from django.contrib.auth import views as auth_views
 app_name = "blog"
 
 urlpatterns = [
+	path('blog/', HomePageView.as_view(), name='home'),
 	path('', HomePageView.as_view(), name='home'),
 	path("about/", AboutView.as_view(), name="about"),
 
 	# path("login/", LoginView.as_view(), name="login"),
-	path('login/', auth_views.LoginView.as_view(template_name='blog/login.html'), name='login'),
-	path('logout/', auth_views.LogoutView.as_view(template_name='blog/logout.html'), name='logout'),
+	path('login/', LoginViewForm.as_view(), name='login'),
+	path('logout/', CustomLogoutView.as_view(), name='logout'),
 	# path('logout/', CustomLogoutView.as_view(), name="logout"),
 	path("register/", RegisterView.as_view(), name="register"),
 
 	path("profile/<str:username>/", UserDetailView.as_view(), name="user_profile"),
+	path("profile/<slug:username>/update/", UserUpdateView.as_view(), name='user_update'),
 
 	path("users/", UserListView.as_view(), name="user_list"),
 	path('user/<str:username>/', UserDetailView.as_view(), name='user_detail'),
-	path('user/<slug:username>/update/', UserUpdateView.as_view(), name='user_update'),
 
 	path("create/", PostCreate.as_view(), name="post_create"),
 	path("post/<slug:slug>/", PostDetailView.as_view(), name="post_detail"),

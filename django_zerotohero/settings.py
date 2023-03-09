@@ -38,8 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "blog",
-    # "accounts",
-    # "martor",
     "mdeditor",
     'markdown_editor',
     "crispy_forms",
