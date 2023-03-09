@@ -41,6 +41,7 @@ class UserProfile(AbstractUser):
 	# username = models.CharField(max_length=255)
 	# password = models.CharField(max_length=255)
 	full_name = models.CharField(max_length=255, blank=True)
+	development = models.CharField(max_length=100, blank=True)
 	email = models.EmailField()
 	avatar = models.ImageField(upload_to="avatar/", blank=True, null=True)
 	gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female'), ('N', 'None')))

@@ -19,11 +19,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
+
 admin.site.site_header = "Blog Project"
 admin.site.index_title = "Hillel IT School"
 
 urlpatterns = [
-    path('', include('blog.urls')),
     path('markdown_editor/', include('markdown_editor.urls')),
     path(r'mdeditor/', include('mdeditor.urls')),
     path('admin/', admin.site.urls),

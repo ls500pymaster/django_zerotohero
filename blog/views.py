@@ -23,8 +23,12 @@ class LoginView(auth_views.LoginView):
     form_class = LoginForm
     template_name = "blog/login.html"
     success_message = "Login successful"
-    success_url = reverse_lazy("blog:post_list")
+    success_url = reverse_lazy("blog:user_profile")
     error_message = "Login False!"
+
+
+class CustomLogoutView(LogoutView):
+    template_name = 'blog/logout.html'
 
 
 class RegisterView(generic.CreateView):
@@ -33,10 +37,6 @@ class RegisterView(generic.CreateView):
     success_message = "Registration successful"
     success_url = reverse_lazy("blog:user_list")
     error_message = "Registration False!"
-
-
-class CustomLogoutView(LogoutView):
-    template_name = 'blog/logout.html'
 
 
 class PostListView(generic.ListView):
@@ -95,6 +95,11 @@ class UserDetailView(DetailView):
         return get_object_or_404(UserProfile, username=username)
 
 
+class UserProfileView(LoginRequiredMixin, DetailView):
+    model = UserProfile
+    template_name = 'blog/user_profile.html'
+
+
 class UserPostListView(LoginRequiredMixin, ListView):
     model = Post
     context_object_name = "user_posts"
@@ -104,14 +109,6 @@ class UserPostListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
         return Post.objects.filter(author=user).order_by("-created")
-
-
-@login_required
-def navbar(request):
-    if request.user.is_authenticated:
-        return render(request, 'blog/navbar.html', {'loggedin': True})
-    else:
-        return render(request, 'blog/navbar.html', {'loggedin': False})
 
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -124,12 +121,13 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = "Profile Updated"
 
     def get_success_url(self):
-        return reverse_lazy("blog:user_detail", kwargs={"username": self.object.username})
+        username = self.object.username
+        return reverse_lazy("blog:user_profile", kwargs={"username": username})
 
-    # def get_object(self, queryset=None):
-    #     user_profile = self.request.user.username
-    #     return user_profile
-    #
-    # def get_success_url(self):
-    #     return reverse_lazy("blog:user_detail", kwargs={"username": self.request.user.username})
 
+@login_required
+def navbar(request):
+    if request.user.is_authenticated:
+        return render(request, 'blog/navbar.html', {'loggedin': True})
+    else:
+        return render(request, 'blog/navbar.html', {'loggedin': False})

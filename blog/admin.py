@@ -10,7 +10,7 @@ from martor.widgets import AdminMartorWidget
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ("username", "gender", "age")
+    list_display = ("username", "gender", "age", "development")
 
 
 @admin.register(Post)

@@ -1,21 +1,25 @@
 from django.urls import path, include
 from .views import PostListView, PostDetailView, UserDetailView, UserListView, AboutView, UserUpdateView, \
-	UserPostListView, CustomLogoutView, HomePageView
+	UserPostListView, CustomLogoutView, HomePageView, UserProfileView
 from blog.views import LoginView, RegisterView
 from blog.views import PostCreate, PostUpdate, LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 app_name = "blog"
 
 urlpatterns = [
 	path('', HomePageView.as_view(), name='home'),
-	# path("user/<int:pk>/", UserDetailView.as_view(), name="user_profile"),
 	path("about/", AboutView.as_view(), name="about"),
 
-	path("login/", LoginView.as_view(), name="login"),
-	path('logout/', CustomLogoutView.as_view(), name="logout"),
+	# path("login/", LoginView.as_view(), name="login"),
+	path('login/', auth_views.LoginView.as_view(template_name='blog/login.html'), name='login'),
+	path('logout/', auth_views.LogoutView.as_view(template_name='blog/logout.html'), name='logout'),
+	# path('logout/', CustomLogoutView.as_view(), name="logout"),
 	path("register/", RegisterView.as_view(), name="register"),
+
+	path("profile/<str:username>/", UserDetailView.as_view(), name="user_profile"),
 
 	path("users/", UserListView.as_view(), name="user_list"),
 	path('user/<str:username>/', UserDetailView.as_view(), name='user_detail'),
