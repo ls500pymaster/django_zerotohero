@@ -15,10 +15,10 @@ class PostForm(forms.ModelForm):
         fields = ['title', 'body', 'tags', "status",]
 
 
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ["mobile", "address", "age", "gender", "biography", "location", "website", "avatar"]
+# class ProfileForm(forms.ModelForm):
+#     class Meta:
+#         model = UserProfile
+#         fields = ["mobile", "address", "age", "gender", "biography", "location", "website", "avatar"]
 
 
 class RegisterForm(UserCreationForm):
@@ -34,7 +34,7 @@ class LoginForm(AuthenticationForm):
 class UserUpdateForm(UserChangeForm):
     class Meta:
         model = UserProfile
-        fields = ["mobile", "address", "age", "gender", "biography", "location", "website", "avatar"]
+        fields = ["mobile", "address", "age", "gender", "biography", "location", "website", "avatar", "development"]
 
 
 class CommentForm(forms.ModelForm):
