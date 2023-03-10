@@ -3,9 +3,14 @@ from django.db import models
 from django.contrib import admin
 from martor.widgets import AdminMartorWidget
 from martor.models import MartorField
-from blog.models import Post, UserProfile, Comments, Tag
+from blog.models import Post, UserProfile, Comments, Tag, Category
 from martor.widgets import AdminMartorWidget
 # from accounts.models import CustomUser
+
+
+@admin.register(Category)
+class PostCategory(admin.ModelAdmin):
+    list_display = ("name",)
 
 
 @admin.register(UserProfile)

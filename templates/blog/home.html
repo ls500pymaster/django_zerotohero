@@ -4,7 +4,62 @@
 
 {% block content %}
 
-    <h1>Welcome to my blog!</h1>
-    <p>This text is printed to all user</p>
+  <div class="container mt-5">
+    <div class="row">
+      <!-- Main Content -->
+      <div class="col-md-8">
+        {% for post in home %}
+          <div class="card mb-4">
+            {% if post.image %}
+              <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+              <h2 class="card-title">{{ post.title }}</h2>
+              <p class="card-text">{{ post.short_description }}</p>
+              <a href="{% url 'blog:post_detail' post.id %}" class="btn btn-primary">Read More &rarr;</a>
+            </div>
+            <div class="card-footer text-muted">
+              Posted on {{ post.created|date:"F d, Y" }} by
+              <a href="">{{ post.author }}</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+     <!-- Sidebar -->
+  <div class="col-md-4">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">About</h5>
+        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut lectus est. Fusce placerat lorem ac malesuada blandit. Nulla gravida lacus vel lectus convallis eleifend. Vestibulum facilisis lectus risus, et laoreet orci aliquet id. Duis scelerisque tellus vitae commodo pulvinar. Aliquam id neque sit amet odio malesuada dapibus in a justo.</p>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Categories</h5>
+        <ul class="list-group">
+        {% include "blog/category_list.html" %}
+          {% for category in object_list %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+{#              <a href="{% url 'blog:category_list' category.slug %}">{{ category.name }}</a>#}
+              <span class="badge bg-primary rounded-pill">{{ category.posts.count }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Tags</h5>
+        <div class="d-flex flex-wrap">
+{% include "blog/tag_list.html" %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
 
 {% endblock %}

@@ -1,8 +1,8 @@
 from django.urls import path, include
 from .views import PostListView, PostDetailView, UserDetailView, UserListView, AboutView, UserUpdateView, \
 	UserPostListView, CustomLogoutView, HomePageView, UserProfileView, LoginViewForm
-from blog.views import LoginView, RegisterView
-from blog.views import PostCreate, PostUpdate, LogoutView, LoginView
+from blog.views import LoginViewForm, RegisterView
+from blog.views import PostCreate, PostUpdate, LogoutView, LoginViewForm, CategoryListView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -10,7 +10,6 @@ from django.contrib.auth import views as auth_views
 app_name = "blog"
 
 urlpatterns = [
-	path('blog/', HomePageView.as_view(), name='home'),
 	path('', HomePageView.as_view(), name='home'),
 	path("about/", AboutView.as_view(), name="about"),
 
@@ -31,6 +30,8 @@ urlpatterns = [
 	path('post/<slug:slug>/update/', PostUpdate.as_view(), name='post_update'),
 
 	path('myposts/', UserPostListView.as_view(), name='user_posts'),
+
+	path('categories/', CategoryListView.as_view(), name='category_list'),
 ]
 
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
