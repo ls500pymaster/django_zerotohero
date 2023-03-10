@@ -1,23 +1,19 @@
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render
-from django.contrib.auth import authenticate, get_user_model, login
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import DetailView, TemplateView, ListView
+from django.views.generic import FormView
 from django.views.generic import UpdateView
 
-from accounts.forms import LoginForm, RegisterForm
-from .models import Post
+from accounts.forms import RegisterForm
+from .models import Post, Category, Tag
 from .models import UserProfile
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy
-from django.views.generic import FormView
 
 
 class LoginViewForm(FormView):
@@ -52,19 +48,32 @@ class RegisterView(FormView):
         return super(RegisterView, self).form_valid(form)
 
 
-class HomePageView(TemplateView):
-    template_name = 'blog/home.html'
+class HomePageView(ListView):
+    model = Post
+    context_object_name = "home"
+    template_name = "blog/home.html"
+
+    def get_queryset(self):
+        return Post.objects.order_by('-created')
+
+
+class CategoryListView(generic.ListView):
+    model = Category
+    template_name = "blog/category_list.html"
+    context_object_name = "category_list"
+
+
+class TagList(generic.ListView):
+    model = Tag
+    context_object_name = "tag_list"
+    template_name = "blog/tag_list.html"
 
 
 class PostListView(generic.ListView):
     model = Post
-    context_object_name = 'post_list'
+    context_object_name = "post_list"
     paginate_by = 5
     template_name = "blog/post_list.html"
-
-
-class AboutView(TemplateView):
-    template_name = "blog/about.html"
 
 
 class PostDetailView(generic.DetailView):
@@ -74,6 +83,10 @@ class PostDetailView(generic.DetailView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
     template_name = "blog/post_detail.html"
+
+
+class AboutView(TemplateView):
+    template_name = "blog/about.html"
 
 
 class PostCreate(LoginRequiredMixin, generic.CreateView):
@@ -134,7 +147,7 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = "blog/user_update.html"
     slug_field = "username"
     slug_url_kwarg = "username"
-    fields = ["email", "mobile", "address", "age", "gender", "biography", "location", "website"]
+    fields = ["full_name", "email", "mobile", "address", "age", "gender", "biography", "location", "website"]
     success_message = "Profile Updated"
 
     # def test_func(self):

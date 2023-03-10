@@ -1,30 +1,22 @@
-{% extends 'base.html' %}
-{% load static %}
 {% load bootstrap_icons %}
-
+{% load static %}
 {% block content %}
 
 {% for post in post_list %}
-    <div id="intro" class="p-5 text-center bg-light">
-      <h1 class="mb-0 h4">{{ post.title }}</h1>
-    </div>
-
-  <!--Main layout-->
+  <div class="p-5 text-center bg-light">
+    <h1 class="mb-0 h4">{{ post.title }}</h1>
+  </div>
   <main class="mt-4 mb-5">
     <div class="container">
-      <!--Grid row-->
       <div class="row">
-        <!--Grid column-->
         <div class="col-md-8 mb-4">
-          <!--Section: Post data-mdb-->
           <div class="border-bottom mb-4">
-           {% if post.image %}
-           <img class="img-fluid shadow-2-strong rounded-5 mb-4" src="{{ post.image.url }}" alt="{{ post.title }}">
-           {% endif %}
+            {% if post.image %}
+              <img class="img-fluid shadow-2-strong rounded-5 mb-4" src="{{ post.image.url }}" alt="{{ post.title }}">
+            {% endif %}
             <div class="row align-items-center mb-4">
               <div class="col-lg-6 text-center text-lg-start mb-3 m-lg-0">
-                <img src="https://mdbootstrap.com/img/Photos/Avatars/img (23).jpg" class="rounded-5 shadow-1-strong me-2"
-                  height="35" alt="" loading="lazy" />
+                <img src="{{ post.author.avatar }}" class="rounded-5 shadow-1-strong me-2" height="35" alt="Avatar" loading="lazy" />
                 <span> Published <u>{{ post.created|date:"F d, Y" }}</u> by</span>
                 <a href="" class="text-dark">{{ post.author }}</a>
               </div>
@@ -43,57 +35,15 @@
                 </button>
               </div>
             </div>
-          </div>>
-            <!--Section: Text-->
+          </div>
           <section>
-            <p>
-            {{ post.short_description }}
-            </p>
-
-            <p><strong>Optio sapiente molestias consectetur?</strong></p>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum architecto ex ab aut
-              tempora officia libero praesentium, sint id magnam eius natus unde blanditiis. Autem
-              adipisci totam sit consequuntur eligendi.
-            </p>
-
-            <p class="note note-light">
-              <strong>Note:</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Optio odit consequatur porro sequi ab distinctio modi. Rerum cum dolores sint,
-              adipisci ad veritatis laborum eaque illum saepe mollitia ut voluptatum.
-            </p>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, libero repellat
-              molestiae aperiam laborum aliquid atque magni nostrum, inventore perspiciatis
-              possimus quia incidunt maiores molestias eaque nam commodi! Magnam, labore.
-            </p>
-
-            <img src="https://mdbootstrap.com/img/new/slides/041.jpg" class="img-fluid shadow-1-strong rounded-5 mb-4"
-              alt="" />
-
-            <ul>
-              <li>Lorem</li>
-              <li>Ipsum</li>
-              <li>Dolor</li>
-              <li>Sit</li>
-              <li>Amet</li>
-            </ul>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, temporibus nulla
-              voluptatibus accusantium sapiente doloremque. Doloribus ratione laboriosam culpa. Ab
-              officiis quidem, debitis nostrum in accusantium dolore veritatis eius est?
-            </p>
+            <p>{{ post.short_description }}</p>
+            {{ post.body|safe }}
           </section>
-        </div>
-    {% include 'blog/sidebar.html' %}
-    {% endfor %}
         </div>
       </div>
     </div>
-</main>
+  </main>
+{% endfor %}
 
-    {% endblock %}
-
+{% endblock %}

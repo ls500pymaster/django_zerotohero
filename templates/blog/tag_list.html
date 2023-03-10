@@ -1,0 +1,8 @@
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block content %}
+          {% for tag in tag_list %}
+            {{ tag.name }}
+          {% endfor %}
+{% endblock %}
