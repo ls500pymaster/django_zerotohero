@@ -1,3 +1,4 @@
+{% extends "blog/base.html" %}
 {% load bootstrap_icons %}
 {% load static %}
 {% block content %}
@@ -24,7 +25,7 @@
                 <img src="{{ post_detail.author.avatar.url }}" class="rounded-5 shadow-1-strong me-2"
                   height="35" alt="" loading="lazy" />
                 <span> Published <u>{{ post_detail.created|date:"F d, Y" }}</u> by</span>
-                <a href="" class="text-dark">{{ post_detail.author }}</a>
+                <a href="{% url 'blog:user_detail' username=post_detail.author.username %}" class="text-dark">{{ post_detail.author.username }}</a>
               </div>
 
               <div class="col-lg-6 text-center text-lg-end">
@@ -97,65 +98,78 @@
           </section>
           <!--Section: Author-->
 
-                <!--Section: Comments-->
-          <section class="border-bottom mb-3">
-            <p class="text-center"><strong>Comments: 3</strong></p>
 
-            <!-- Comment -->
-            <div class="row mb-4">
-              <div class="col-2">
-                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(24).jpg"
-                  class="img-fluid shadow-1-strong rounded-5" alt="" />
-              </div>
 
-              <div class="col-10">
-                <p class="mb-2"><strong>Marta Dolores</strong></p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio est ab iure
-                  inventore dolorum consectetur? Molestiae aperiam atque quasi consequatur aut?
-                  Repellendus alias dolor ad nam, soluta distinctio quis accusantium!
+  <div class="container my-2 py-2">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-12 col-lg-12">
+        <div class="card text-dark">
+          <div class="card-body p-4">
+
+            <h4 class="mb-0">Recent comments</h4>
+            <p class="fw-light mb-4 pb-2">Latest Comments section by users</p>
+
+            <div class="d-flex flex-start">
+
+              <img class="rounded-circle shadow-1-strong me-3"
+                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp" alt="avatar" width="60"
+                height="60" />
+              <div>
+{% for comment in comments %}
+                <h6 class="fw-bold mb-1">{{ comment.user.full_name }}</h6>
+                <div class="d-flex align-items-center mb-3">
+                  <p class="mb-0">
+                    {{ comment.created }}
+                    <span class="badge bg-primary">{{ comment.approved }}</span>
+                  </p>
+                  <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                  <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                  <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                </div>
+                <p class="mb-0">
+
+                    {{ comment.body }}
+                    {% endfor %}
                 </p>
+
               </div>
             </div>
-
-            <!-- Comment -->
-            <div class="row mb-4">
-              <div class="col-2">
-                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(25).jpg"
-                  class="img-fluid shadow-1-strong rounded-5" alt="" />
-              </div>
-
-              <div class="col-10">
-                <p class="mb-2"><strong>Valeria Groove</strong></p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio est ab iure
-                  inventore dolorum consectetur? Molestiae aperiam atque quasi consequatur aut?
-                  Repellendus alias dolor ad nam, soluta distinctio quis accusantium!
-                </p>
-              </div>
-            </div>
-
-            <!-- Comment -->
-            <div class="row mb-4">
-              <div class="col-2">
-                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(26).jpg"
-                  class="img-fluid shadow-1-strong rounded-5" alt="" />
-              </div>
-
-              <div class="col-10">
-                <p class="mb-2"><strong>Antonia Velez</strong></p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio est ab iure
-                  inventore dolorum consectetur? Molestiae aperiam atque quasi consequatur aut?
-                  Repellendus alias dolor ad nam, soluta distinctio quis accusantium!
-                </p>
-              </div>
-            </div>
-          </section>
-          <!--Section: Comments-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-                 <!--Section: Reply-->
+
+{##}
+{#    <div class="card mt-4">#}
+{#        <div class="card-header">#}
+{#            <h4>Comments ({{ post_detail.comments }})</h4>#}
+{#        </div>#}
+{#        <div class="card-body">#}
+{#            {% for comment in post_detail.comments.all %}#}
+{#                <div class="media mb-4">#}
+{#             {% if post_detail.author.avatar %}#}
+{#            <img class="rounded-circle"#}
+{#              src="{{ post_detail.author.avatar.url }}" alt="{{ post_detail.author.username }}"#}
+{#              style="width: 45px; height: 45px"#}
+{#            />#}
+{#            {% endif %}#}
+{#                    <div class="media-body">#}
+{#                        <h5 class="mt-0">{{ comment.user.get_full_name }}</h5>#}
+{#                        <p>{{ comment.body }}</p>#}
+{#                        <small class="text-muted">{{ comment.created|date:'F d, Y' }}</small>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% empty %}#}
+{#                <p>There are no comments yet.</p>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    </div>#}
+
+
+<!--Section: Reply-->
           <section>
             <p class="text-center"><strong>Leave a reply</strong></p>
             <form>

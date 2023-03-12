@@ -52,8 +52,6 @@ class Post(models.Model):
 
 
 class UserProfile(AbstractUser):
-    # username = models.CharField(max_length=255)
-    # password = models.CharField(max_length=255)
     full_name = models.CharField(max_length=255, blank=True)
     development = models.CharField(max_length=100, blank=True)
     email = models.EmailField()
@@ -75,16 +73,20 @@ class UserProfile(AbstractUser):
 
 
 class Comments(models.Model):
-    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     body = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     published = models.BooleanField(default=False)
     approved = models.BooleanField(default=False)
 
     class Meta:
+        ordering = ["created"]
         verbose_name = "Blog Comments"
         verbose_name_plural = "Blog Comments"
+
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.body, self.post)
 
 
 class Tag(models.Model):

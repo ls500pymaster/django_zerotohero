@@ -1,8 +1,4 @@
-{% block content %}
-  <h1>Categories</h1>
-  <ul>
-  {% for category in category_list %}
-    <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
-  {% endfor %}
-  </ul>
-{% endblock %}
+
+        {% for category in category_list %}
+            <a href="{{ category.slug }}" class="badge badge-secondary mr-2 mb-2">{{ category.slug }}</a>
+          {% endfor %}
