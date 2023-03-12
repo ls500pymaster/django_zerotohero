@@ -7,6 +7,8 @@ from blog.models import Post, UserProfile, Comments, Tag, Category
 from martor.widgets import AdminMartorWidget
 # from accounts.models import CustomUser
 
+admin.site.site_url = "/blog"
+
 
 @admin.register(Category)
 class PostCategory(admin.ModelAdmin):
@@ -29,10 +31,16 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comments)
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = ("post", "body", "created", "published")
+    list_display = ("user", "post", "created", "approved", )
+    list_filter = ("user", "approved",)
+    search_fields = ("user", "body",)
+    actions = ["approve_comments"]
+
+    def approved(self, request, queryset):
+        queryset.update(approved=True)
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ("name", )
-
+    search_fields = ("name",)

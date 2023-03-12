@@ -1,8 +1,5 @@
-{% load static %}
-{% load bootstrap_icons %}
 
-{% block content %}
-          {% for tag in tag_list %}
-            {{ tag.name }}
-          {% endfor %}
-{% endblock %}
+{% for tag in tag_list %}
+<a href="{{ tag.name }}" class="badge badge-secondary mr-2 mb-2">{{ tag.name }}</a>
+{% endfor %}
+

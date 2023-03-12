@@ -1,31 +1,27 @@
 from django import forms
 from django.contrib.auth.views import LoginView
-
-from blog.models import UserProfile
+from blog.models import UserProfile, Category, Post
 from blog.models import Comments
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from mdeditor.fields import MDTextField
 
-from blog.views import Post
-
 
 class PostForm(forms.ModelForm):
+    categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+
     class Meta:
         model = Post
-        fields = ['title', 'body', 'tags', "status",]
+        fields = ['title', 'body', 'categories', 'tags', 'image', 'status']
 
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ["mobile", "address", "age", "gender", "biography", "location", "website", "avatar"]
-
-
-# class RegisterForm(UserCreationForm):
-#     class Meta:
-#         model = get_user_model()
-#         fields = ("email", "username", "password1", "password2")
 
 
 class UserUpdateForm(UserChangeForm):
