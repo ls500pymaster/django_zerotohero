@@ -39,8 +39,8 @@ urlpatterns = [
 	path("tags/", TagList.as_view(), name='tag_list'),
 	path("tags/<str:name>", TagDetailView.as_view(), name='tag_detail'),
 
-	path('comments/', include('django_comments_xtd.urls')),
-	path('comments/', include('django_comments.urls')),
+	# path('comments/', include('django_comments_xtd.urls')),
+	# path('comments/', include('django_comments.urls')),
 	# re_path(r'^comments/post/$', django_comments_xtd_views.post_comment, name='comments-xtd-post-comment'),
 	# re_path(r'^comments/cancel/$', django_comments_views.comments_cancel, name='comments-cancel'),
 ]
