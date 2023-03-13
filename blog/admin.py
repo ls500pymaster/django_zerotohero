@@ -31,13 +31,10 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comments)
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = ("user", "post", "created", "approved", )
-    list_filter = ("user", "approved",)
+    list_display = ("user", "post", "created",)
+    list_filter = ("user",)
     search_fields = ("user", "body",)
     actions = ["approve_comments"]
-
-    def approved(self, request, queryset):
-        queryset.update(approved=True)
 
 
 @admin.register(Tag)
