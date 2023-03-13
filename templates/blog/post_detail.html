@@ -81,8 +81,8 @@
                 <!--Section: Author-->
           <section class="border-bottom mb-4 pb-4">
             <div class="row">
-              <div class="col-3">
-                <img src="{{ post_detail.author.avatar.url }}" class="img-fluid shadow-1-strong rounded-5" alt="" />
+              <div class="col-2">
+                <img src="{{ post_detail.author.avatar.url }}" class="img-fluid shadow-2-strong rounded-6" alt="" />
               </div>
 
               <div class="col-9">
@@ -107,36 +107,39 @@
           <div class="card-body p-4">
 
             <h4 class="mb-0">Recent comments</h4>
+          {% if comments.exists %}
             <p class="fw-light mb-4 pb-2">
                 {% with comments.count as total_comments %}
                 Total: {{ total_comments }} comment{{ total_comments|pluralize }}
                 {% endwith %}
+            {% else %}
+    <p class="fw-light mb-4 pb-2">
+        No comments yet
+    </p>
+{% endif %}
               </p>
 
-            <div class="d-flex flex-start">
 
-              <img class="rounded-circle shadow-1-strong me-3"
-                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp" alt="avatar" width="60"
-                height="60" />
+<div class="d-flex flex-start">
               <div>
-                {% for comment in comments %}
-                <h6 class="fw-bold mb-1">{{ comment.user.full_name }}</h6>
-                <div class="d-flex align-items-center mb-3">
-                  <p class="mb-0">
-                    {{ comment.created }}
-                    <span class="badge bg-primary">{{ comment.published }}</span>
-                  </p>
-                  <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
-                  <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
-                  <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
-                </div>
-                <p class="mb-0">
-                    {{ comment.body }}
-                    {% empty %}
-            <p>There are no comments yet.</p>
-                    {% endfor %}
-                </p>
+{% for comment in comments %}
+<div class="blockquote mb-4">
+  <div class="d-flex align-items-center justify-content-between">
+      {% if comment.user.avatar.url %}
+      <img src="{{ comment.user.avatar.url }} " class="rounded-2 shadow-2-strong me-2"   height="45" width="45" alt="" loading="lazy" />&rarr;
+      {% endif %}
+    <h6 class="fw-bold mb-1">{{ comment.user.full_name }} </h6>
+    <p class="mb-0">
+      {{ comment.created }}
+      <span class="badge bg-primary">{{ comment.published }}</span>
+    </p>
+  </div>
+  <hr class="my-2">
+  <p class="mb-1" style="font-size: 18px">{{ comment.body }}</p>
+</div>
+{% endfor %}
 
+                </p>
               </div>
             </div>
           </div>
