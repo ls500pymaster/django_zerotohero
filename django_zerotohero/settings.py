@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
 
     "blog",
+    "contact",
     # 'django_comments_xtd',
     # 'django_comments',
     "mdeditor",
