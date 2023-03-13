@@ -4,13 +4,15 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import DetailView, TemplateView, ListView, CreateView
 from django.views.generic import FormView
 from django.views.generic import UpdateView
+from django.views.generic.edit import FormMixin
+
 from .forms import CommentForm
 
 from accounts.forms import RegisterForm
@@ -109,33 +111,39 @@ class PostListView(generic.ListView):
     template_name = "blog/post_list.html"
 
 
-class PostDetailView(generic.DetailView):
+class PostDetailView(generic.DetailView, FormMixin):
+    form_class = CommentForm
     model = Post
     context_object_name = "post_detail"
     paginate_by = 4
     slug_field = "slug"
     slug_url_kwarg = "slug"
+    success_message = "Comment added"
     template_name = "blog/post_detail.html"
 
-    def get_success_url(self):
-        return reverse_lazy("blog:post_detail", kwargs={"slug": self.object.slug})
-
     def post(self, request, *args, **kwargs):
-        post = self.get_object()
-        form = CommentForm(request.POST)
+        form = self.get_form()
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user.userprofile
-            comment.post = self.object
-            comment.save()
-            return redirect('blog:post_detail', slug=self.object.slug)
-        return self.render_to_response(self.get_context_data(form=form))
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.post = self.get_object()
+        self.object.username = self.request.user
+        self.object.save()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        comments = Comments.objects.filter(post=self.object, approved=True).order_by("created")
+        context['post_detail'] = self.get_object()
+        comments = Comments.objects.filter(post=self.object, published=True).order_by("created")
         context["comments"] = comments
         return context
+
+    def get_success_url(self):
+        return reverse_lazy("blog:post_detail", kwargs={"slug": self.kwargs['slug']})
 
 
 class PostCreate(LoginRequiredMixin, generic.CreateView):
@@ -165,19 +173,21 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         return reverse_lazy("blog:post_detail", kwargs={"slug": self.object.slug})
 
 
-class CommentCreateView(CreateView):
-    model = Comments
-    form_class = CommentForm
-    success_url = reverse_lazy("blog:post_detail")
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.instance.post = get_object_or_404(Post, slug=self.kwargs['slug'])
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        from django.urls import reverse
-        return reverse("blog:post_detail", kwargs={"slug": self.object.post.slug})
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    pass
+    # model = Comments
+    # form_class = CommentForm
+    # template_name = "blog/comment_form.html"
+    # success_message = "Comment added"
+    # slug_url_kwarg = "slug"
+    #
+    # def form_valid(self, form):
+    #     form.instance.user = self.request.user
+    #     form.instance.post = get_object_or_404(Post, slug=self.kwargs['slug'])
+    #     return super().form_valid(form)
+    #
+    # def get_success_url(self):
+    #     return reverse_lazy("blog:post_detail", kwargs={"slug": self.kwargs["slug"]})
 
 
 class UserListView(generic.ListView):
