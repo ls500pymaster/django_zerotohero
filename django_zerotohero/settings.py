@@ -50,8 +50,8 @@ INSTALLED_APPS = [
 
 
     "blog",
-    'django_comments_xtd',
-    'django_comments',
+    # 'django_comments_xtd',
+    # 'django_comments',
     "mdeditor",
     'markdown_editor',
     "crispy_forms",
@@ -206,11 +206,11 @@ LOGIN_URL = "login"
 
 # Comments
 
-SITE_ID = 1
-COMMENTS_APP = 'django_comments_xtd'
-COMMENTS_XTD_MAX_THREAD_LEVEL = 2
-
-COMMENTS_XTD_CONFIRM_EMAIL = False
+# SITE_ID = 1
+# COMMENTS_APP = 'django_comments_xtd'
+# COMMENTS_XTD_MAX_THREAD_LEVEL = 2
+#
+# COMMENTS_XTD_CONFIRM_EMAIL = False
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = ''
