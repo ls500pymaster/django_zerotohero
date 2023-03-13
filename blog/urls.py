@@ -5,8 +5,7 @@ from .views import PostListView, PostDetailView, UserDetailView, UserListView, A
 from blog.views import LoginViewForm, RegisterView
 from blog.views import PostCreate, PostUpdate, LogoutView, LoginViewForm, CategoryListView, TagList, TagDetailView, CategoryDetailView
 from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
+from contact.views import contact
 
 app_name = "blog"
 
@@ -39,10 +38,7 @@ urlpatterns = [
 	path("tags/", TagList.as_view(), name='tag_list'),
 	path("tags/<str:name>", TagDetailView.as_view(), name='tag_detail'),
 
-	# path('comments/', include('django_comments_xtd.urls')),
-	# path('comments/', include('django_comments.urls')),
-	# re_path(r'^comments/post/$', django_comments_xtd_views.post_comment, name='comments-xtd-post-comment'),
-	# re_path(r'^comments/cancel/$', django_comments_views.comments_cancel, name='comments-cancel'),
+	path("contact/", contact, name='contact'),
 ]
 
 if settings.DEBUG:

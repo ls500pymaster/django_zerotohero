@@ -1,0 +1,31 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<form class="text-center border border-light p-5" method="POST">
+  {% csrf_token %}
+  <p class="h4 mb-4">Contact us</p>
+  {{ form.non_field_errors }}
+  <div class="form-group">
+    {{ form.name.label_tag }}
+    {{ form.name }}
+  </div>
+  <div class="form-group">
+    {{ form.email.label_tag }}
+    {{ form.email }}
+  </div>
+  <div class="form-group">
+    {{ form.subject.label_tag }}
+    {{ form.subject }}
+  </div>
+  <div class="form-group">
+    {{ form.message.label_tag }}
+    {{ form.message }}
+  </div>
+  <div class="custom-control custom-checkbox mb-4">
+    {{ form.copy }}
+    {{ form.copy.label_tag }}
+  </div>
+  <button class="btn btn-info btn-block" type="submit">Send</button>
+</form>
+
+{% endblock %}
