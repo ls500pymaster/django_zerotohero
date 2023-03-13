@@ -13,6 +13,8 @@ from django.views.generic import DetailView, TemplateView, ListView, CreateView
 from django.views.generic import FormView
 from django.views.generic import UpdateView
 from django.views.generic.edit import FormMixin
+from django.core.paginator import Paginator
+from django.shortcuts import render
 
 from .forms import CommentForm
 
@@ -23,12 +25,17 @@ from .models import UserProfile
 
 def home(request):
     category_list = Category.objects.all()
-    tag_list = Tag.objects.all()
     post_list = Post.objects.all()
+    tag_list = Tag.objects.all()
+    posts_per_page = 5
+    paginator = Paginator(post_list, posts_per_page)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
     context = {
         "category_list": category_list,
-        "tag_list": tag_list,
         "post_list": post_list,
+        "page_obj": page_obj,
+        "tag_list": tag_list,
     }
     return render(request, "blog/home.html", context)
 
@@ -214,7 +221,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 class UserListView(generic.ListView):
     model = UserProfile
     context_object_name = "user_list"
-    paginate_by = 5
+    paginate_by = 4
     template_name = "blog/user_list.html"
 
 
