@@ -102,14 +102,17 @@
           data-mdb-toggle="dropdown"
           aria-expanded="false"
         >
+            {% if user.is_authenticated and user.avatar.url %}
           <img
-            src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+            src="{{ user.avatar.url }}"
             class="rounded-circle"
             height="25"
-            alt="Black and White Portrait of a Man"
+            alt="User Avatar"
             loading="lazy"
           />
         </a>
+      {% endif %}
+
 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
   {% if user.is_authenticated %}
     <li>
