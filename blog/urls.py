@@ -1,11 +1,13 @@
 from django.urls import path, include
+
+from contact.forms import ContactForm
 from .views import home, CommentCreateView
 from .views import PostListView, PostDetailView, UserDetailView, UserListView, AboutView, UserUpdateView, \
 	UserPostListView, CustomLogoutView, UserProfileView, LoginViewForm, home
 from blog.views import LoginViewForm, RegisterView
 from blog.views import PostCreate, PostUpdate, LogoutView, LoginViewForm, CategoryListView, TagList, TagDetailView, CategoryDetailView
 from django.conf import settings
-from contact.views import contact
+from contact.views import ContactViewMain, success_view
 
 app_name = "blog"
 
@@ -38,7 +40,8 @@ urlpatterns = [
 	path("tags/", TagList.as_view(), name='tag_list'),
 	path("tags/<str:name>", TagDetailView.as_view(), name='tag_detail'),
 
-	path("contact/", contact, name='contact'),
+	path('contact/', ContactViewMain.as_view(), name='contact'),
+	path("success/", success_view, name="success"),
 ]
 
 if settings.DEBUG:

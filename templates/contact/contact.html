@@ -1,31 +1,92 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<form class="text-center border border-light p-5" method="POST">
-  {% csrf_token %}
-  <p class="h4 mb-4">Contact us</p>
-  {{ form.non_field_errors }}
-  <div class="form-group">
-    {{ form.name.label_tag }}
-    {{ form.name }}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contactModal">
+  Contact us
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="contactForm" method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{ form.non_field_errors }}
+          <div class="form-group">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+          </div>
+          <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+          </div>
+          <div class="form-group">
+            {{ form.subject.label_tag }}
+            {{ form.subject }}
+          </div>
+          <div class="form-group">
+            {{ form.message.label_tag }}
+            {{ form.message }}
+          </div>
+          <div class="custom-control custom-checkbox mb-4">
+            {{ form.copy }}
+            {{ form.copy.label_tag }}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Send</button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="form-group">
-    {{ form.email.label_tag }}
-    {{ form.email }}
+</div>
+
+<!-- Result Modal -->
+<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="resultModalLabel">Contact Form Result</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="resultMessage"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    {{ form.subject.label_tag }}
-    {{ form.subject }}
-  </div>
-  <div class="form-group">
-    {{ form.message.label_tag }}
-    {{ form.message }}
-  </div>
-  <div class="custom-control custom-checkbox mb-4">
-    {{ form.copy }}
-    {{ form.copy.label_tag }}
-  </div>
-  <button class="btn btn-info btn-block" type="submit">Send</button>
-</form>
+</div>
+
+<script>
+$(document).ready(function() {
+  // handle form submission
+  $('#contactForm').submit(function(event) {
+    event.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "blog:contact" %}',
+      data: $('#contactForm').serialize(),
+      success: function(response) {
+        $('#resultMessage').html(response.message);
+        $('#resultModal').modal('show');
+        $('#contactForm')[0].reset();
+      },
+      error: function(response) {
+        $('#resultMessage').html(response.responseJSON.message);
+        $('#resultModal').modal('show');
+      }
+    });
+  });
+});
+</script>
 
 {% endblock %}
