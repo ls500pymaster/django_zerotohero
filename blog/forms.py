@@ -31,9 +31,7 @@ class UserUpdateForm(UserChangeForm):
 
 
 class CommentForm(forms.ModelForm):
-    name = forms.CharField(max_length=255, required=True)
-    email = forms.EmailField(required=False)
-
     class Meta:
         model = Comments
-        fields = ["body",]
+        fields = ["body"]
+

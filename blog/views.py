@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
@@ -7,7 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
 from django.views.generic import DetailView, TemplateView, ListView, CreateView
 from django.views.generic import FormView
 from django.views.generic import UpdateView
@@ -111,13 +112,29 @@ class PostListView(generic.ListView):
     template_name = "blog/post_list.html"
 
 
-class PostDetailView(generic.DetailView, FormMixin):
+# class CommentCreateView(LoginRequiredMixin, generic.CreateView):
+#     model = Comments
+#     form_class = CommentForm
+#     template_name = 'blog/comment_form.html'
+#     success_url = reverse_lazy('post_list')
+#
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         post = Post.objects.get(slug=self.kwargs['slug'])
+#         form.instance.post = post
+#         response = super().form_valid(form)
+#         messages.success(self.request, 'Comment added.')
+#         return response
+
+
+class PostDetailView(generic.DetailView, LoginRequiredMixin, FormMixin):
+    # Handle user's input from form
     form_class = CommentForm
     model = Post
     context_object_name = "post_detail"
     paginate_by = 4
     slug_field = "slug"
-    slug_url_kwarg = "slug"
+    # slug_url_kwarg = "slug"
     success_message = "Comment added"
     template_name = "blog/post_detail.html"
 
@@ -128,16 +145,20 @@ class PostDetailView(generic.DetailView, FormMixin):
         else:
             return self.form_invalid(form)
 
+    # Add comment to the db
     def form_valid(self, form):
+        # Crete instance of the comment, but don't save
         self.object = form.save(commit=False)
         self.object.post = self.get_object()
-        self.object.username = self.request.user
+        self.object.user = self.request.user
+        self.object.body = form.cleaned_data['body']
         self.object.save()
         return super().form_valid(form)
 
+    # Get all comments filtered by Post
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['post_detail'] = self.get_object()
+        context["post_detail"] = self.get_object()
         comments = Comments.objects.filter(post=self.object, published=True).order_by("created")
         context["comments"] = comments
         return context
