@@ -76,6 +76,7 @@ class Comments(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments_post")
     body = models.TextField(blank=True)
+    email = models.EmailField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     published = models.BooleanField(default=False)
 

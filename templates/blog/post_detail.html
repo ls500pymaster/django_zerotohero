@@ -2,11 +2,11 @@
 {% load bootstrap_icons %}
 {% load static %}
 {% block content %}
+    {% csrf_token %}
 
     <div id="intro" class="p-5 text-center bg-light">
       <h1 class="mb-0 h4">{{ post_detail.title }}</h1>
     </div>
-{% csrf_token %}
      <!--Main layout-->
   <main class="mt-4 mb-5">
     <div class="container">
@@ -107,7 +107,11 @@
           <div class="card-body p-4">
 
             <h4 class="mb-0">Recent comments</h4>
-            <p class="fw-light mb-4 pb-2">Latest Comments section by users</p>
+            <p class="fw-light mb-4 pb-2">
+                {% with comments.count as total_comments %}
+                Total: {{ total_comments }} comment{{ total_comments|pluralize }}
+                {% endwith %}
+              </p>
 
             <div class="d-flex flex-start">
 
@@ -115,20 +119,21 @@
                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp" alt="avatar" width="60"
                 height="60" />
               <div>
-{% for comment in comments %}
+                {% for comment in comments %}
                 <h6 class="fw-bold mb-1">{{ comment.user.full_name }}</h6>
                 <div class="d-flex align-items-center mb-3">
                   <p class="mb-0">
                     {{ comment.created }}
-                    <span class="badge bg-primary">{{ comment.created }}</span>
+                    <span class="badge bg-primary">{{ comment.published }}</span>
                   </p>
                   <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
                   <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
                   <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
                 </div>
                 <p class="mb-0">
-
                     {{ comment.body }}
+                    {% empty %}
+            <p>There are no comments yet.</p>
                     {% endfor %}
                 </p>
 
@@ -172,8 +177,17 @@
 <!--Section: Comment Reply-->
           <section>
             <p class="text-center"><strong>Leave a reply</strong></p>
-              {% include "blog/comment_form.html" %}
-{#            <form>#}
+              <form action="." method="post">
+    {% csrf_token %}
+    <div class="form-outline mb-4">
+        <textarea class="form-control" id="body" name="body" rows="4"></textarea>
+        <label class="form-label" for="body">Text</label>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block mb-4">Publish</button>
+</form>
+
+{#            <form action="." method="post">#}
+{#                {% csrf_token %}#}
 {#              <!-- Name input -->#}
 {#              <div class="form-outline mb-4">#}
 {#                <input type="text" id="id_name" class="form-control" />#}
@@ -185,13 +199,13 @@
 {#                <input type="email" id="id_email" class="form-control" />#}
 {#                <label class="form-label" for="id_email">Email address</label>#}
 {#              </div>#}
-{##}
-{#              <!-- Message input -->#}
+
+              <!-- Message input -->
 {#              <div class="form-outline mb-4">#}
-{#                <textarea class="form-control" id="id_body" rows="4"></textarea>#}
-{#                <label class="form-label" for="id_body">Text</label>#}
+{#                <textarea class="form-control" id="body" rows="4"></textarea>#}
+{#                <label class="form-label" for="body">Text</label>#}
 {#              </div>#}
-{##}
+
 {#              <!-- Checkbox -->#}
 {#              <div class="form-check d-flex justify-content-center mb-4">#}
 {#                <input class="form-check-input me-2" type="checkbox" value="" id="form4Example4" checked />#}
@@ -199,8 +213,8 @@
 {#                  Send me a copy of this comment#}
 {#                </label>#}
 {#              </div>#}
-{##}
-{#              <!-- Submit button -->#}
+
+              <!-- Submit button -->
 {#              <button type="submit" class="btn btn-primary btn-block mb-4">#}
 {#                Publish#}
 {#              </button>#}
