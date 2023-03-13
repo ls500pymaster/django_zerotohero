@@ -1,0 +1,66 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+<h1>Contact Us</h1>
+<!-- Contact Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            {{ form.name.as_widget }}
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            {{ form.email.as_widget }}
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            {{ form.subject.as_widget }}
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            {{ form.message.as_widget }}
+          </div>
+          <div class="custom-control custom-checkbox mb-3">
+            {{ form.copy.as_widget }}
+            {{ form.copy.label_tag }}
+          </div>
+          <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+  // handle form submission
+  $('#contactForm').submit(function(event) {
+    event.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "blog:contact" %}',
+      data: $('#contactForm').serialize(),
+      success: function(response) {
+        $('#resultMessage').html(response.message);
+        $('#resultModal').modal('show');
+        $('#contactForm')[0].reset();
+      },
+      error: function(response) {
+        $('#resultMessage').html(response.responseJSON.message);
+        $('#resultModal').modal('show');
+      }
+    });
+  });
+});
+</script>
+
+{% endblock %}
