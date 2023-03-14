@@ -7,7 +7,7 @@ from .views import PostListView, PostDetailView, UserDetailView, UserListView, A
 from blog.views import LoginViewForm, RegisterView
 from blog.views import PostCreate, PostUpdate, LogoutView, LoginViewForm, CategoryListView, TagList, TagDetailView, CategoryDetailView
 from django.conf import settings
-from contact.views import ContactViewMain, success_view
+from contact.views import ContactViewMain
 
 app_name = "blog"
 
@@ -41,7 +41,7 @@ urlpatterns = [
 	path("tags/<str:name>", TagDetailView.as_view(), name='tag_detail'),
 
 	path('contact/', ContactViewMain.as_view(), name='contact'),
-	path("success/", success_view, name="success"),
+	# path("success/", success_view, name="success"),
 ]
 
 if settings.DEBUG:

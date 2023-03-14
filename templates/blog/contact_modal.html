@@ -1,4 +1,5 @@
 
+{% load crispy_forms_tags %}
 
 <!-- Contact Modal -->
 <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
@@ -9,30 +10,27 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="POST">
+        <form method="POST" id="contactForm">
           {% csrf_token %}
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            {{ form.name.as_widget }}
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            {{ form.email.as_widget }}
-          </div>
-          <div class="mb-3">
-            <label for="subject" class="form-label">Subject</label>
-            {{ form.subject.as_widget }}
-          </div>
-          <div class="mb-3">
-            <label for="message" class="form-label">Message</label>
-            {{ form.message.as_widget }}
-          </div>
-          <div class="custom-control custom-checkbox mb-3">
-            {{ form.copy.as_widget }}
-            {{ form.copy.label_tag }}
-          </div>
+          {{ form|crispy }}
           <button type="submit" class="btn btn-primary">Send</button>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Result Modal -->
+<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="resultModalLabel">Contact Form Submitted</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Thank you for contacting us. We will get back to you as soon as possible.</p>
       </div>
     </div>
   </div>
@@ -48,9 +46,15 @@ $(document).ready(function() {
       url: '{% url "blog:contact" %}',
       data: $('#contactForm').serialize(),
       success: function(response) {
-        $('#resultMessage').html(response.message);
-        $('#resultModal').modal('show');
-        $('#contactForm')[0].reset();
+        if (response.success) {
+          $('#resultMessage').html(response.message);
+          $('#resultModal').modal('show');
+          $('#contactModal').modal('hide');
+          $('#contactForm')[0].reset();
+        } else {
+          $('#resultMessage').html(response.message);
+          $('#resultModal').modal('show');
+        }
       },
       error: function(response) {
         $('#resultMessage').html(response.responseJSON.message);
@@ -58,5 +62,11 @@ $(document).ready(function() {
       }
     });
   });
+
+  // handle success modal
+  $('#successModal').on('hidden.bs.modal', function () {
+    location.reload();
+  });
 });
+
 </script>

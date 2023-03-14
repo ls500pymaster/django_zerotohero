@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 
+{% include "blog/contact_modal.html" %}
+{% include "blog/contact_success_modal.html" %}
 
 <div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -17,5 +19,4 @@
       </ul>
     </header>
   </div>
-{% include "blog/contact_modal.html" %}
 {% endblock %}

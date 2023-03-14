@@ -11,4 +11,3 @@ class ContactForm(forms.Form):
         ('other', 'Other'),
     ])
     message = forms.CharField(label='Message', widget=forms.Textarea)
-    # copy = forms.BooleanField(label='Send me a copy of this message', required=False)
