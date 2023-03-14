@@ -1,10 +1,11 @@
 from django.core.mail import send_mail
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.core.mail import BadHeaderError
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 from contact.forms import ContactForm
+from django.core.exceptions import ValidationError
 
 
 class ContactViewMain(FormView):
@@ -17,18 +18,17 @@ class ContactViewMain(FormView):
         email = form.cleaned_data['email']
         subject = form.cleaned_data['subject']
         message = form.cleaned_data['message']
-        # copy = form.cleaned_data['copy']
         try:
             send_mail(subject, message, ["admin@localhost.com"], ["admin@example.com"])
+            return JsonResponse({'success': True})
         except BadHeaderError:
-            return HttpResponse("Invalid header found.")
-        return super().form_valid(form)
+            return JsonResponse({'success': False, 'error': 'Invalid header found.'})
+        except ValidationError as e:
+            return JsonResponse({'success': False, 'error': e.message})
+
+    def form_invalid(self, form):
+        return JsonResponse({'success': False, 'error': 'Invalid form data.'})
 
 
-def contact_us(request):
-    return render(request, 'blog/contact_us.html')
-
-
-def success_view(request):
-    return HttpResponse("Success! Thank you for your message.")
-
+def contact_success(request):
+    return render(request, 'blog/contact_success_modal.html')
